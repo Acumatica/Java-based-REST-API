@@ -64,8 +64,8 @@ public class Shipment extends Entity {
   @SerializedName("OverrideFreightPrice")
   private BooleanValue overrideFreightPrice = null;
 
-  @SerializedName("FreightAmount")
-  private DecimalValue freightAmount = null;
+  @SerializedName("FreightPrice")
+  private DecimalValue FreightPrice = null;
 
   @SerializedName("FreightCost")
   private DecimalValue freightCost = null;
@@ -405,22 +405,22 @@ public class Shipment extends Entity {
     this.overrideFreightPrice = overrideFreightPrice;
   }
 
-  public Shipment freightAmount(DecimalValue freightAmount) {
-    this.freightAmount = freightAmount;
+  public Shipment FreightPrice(DecimalValue FreightPrice) {
+    this.FreightPrice = FreightPrice;
     return this;
   }
 
    /**
-   * Get freightAmount
-   * @return freightAmount
+   * Get FreightPrice
+   * @return FreightPrice
   **/
   @ApiModelProperty(value = "")
-  public DecimalValue getFreightAmount() {
-    return freightAmount;
+  public DecimalValue getFreightPrice() {
+    return FreightPrice;
   }
 
-  public void setFreightAmount(DecimalValue freightAmount) {
-    this.freightAmount = freightAmount;
+  public void setFreightPrice(DecimalValue FreightPrice) {
+    this.FreightPrice = FreightPrice;
   }
 
   public Shipment freightCost(DecimalValue freightCost) {
