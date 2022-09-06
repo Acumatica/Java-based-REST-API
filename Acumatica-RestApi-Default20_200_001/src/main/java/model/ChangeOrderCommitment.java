@@ -49,9 +49,6 @@ public class ChangeOrderCommitment extends Entity {
   @SerializedName("LineDescription")
   private StringValue lineDescription = null;
 
-  @SerializedName("OpenAmount")
-  private DecimalValue openAmount = null;
-
   @SerializedName("OpenQty")
   private DecimalValue openQty = null;
 
@@ -253,23 +250,6 @@ public class ChangeOrderCommitment extends Entity {
     this.lineDescription = lineDescription;
   }
 
-  public ChangeOrderCommitment openAmount(DecimalValue openAmount) {
-    this.openAmount = openAmount;
-    return this;
-  }
-
-   /**
-   * Get openAmount
-   * @return openAmount
-  **/
-  @ApiModelProperty(value = "")
-  public DecimalValue getOpenAmount() {
-    return openAmount;
-  }
-
-  public void setOpenAmount(DecimalValue openAmount) {
-    this.openAmount = openAmount;
-  }
 
   public ChangeOrderCommitment openQty(DecimalValue openQty) {
     this.openQty = openQty;

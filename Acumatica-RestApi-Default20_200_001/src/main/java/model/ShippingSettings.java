@@ -73,8 +73,8 @@ public class ShippingSettings extends Entity {
   @SerializedName("UseCustomersAccount")
   private BooleanValue useCustomersAccount = null;
 
-  @SerializedName("Freight")
-  private DecimalValue freight = null;
+  @SerializedName("FreightPrice")
+  private DecimalValue FreightPrice = null;
 
   @SerializedName("FreightCost")
   private DecimalValue freightCost = null;
@@ -403,22 +403,22 @@ public class ShippingSettings extends Entity {
     this.useCustomersAccount = useCustomersAccount;
   }
 
-  public ShippingSettings freight(DecimalValue freight) {
-    this.freight = freight;
+  public ShippingSettings FreightPrice(DecimalValue FreightPrice) {
+    this.FreightPrice = FreightPrice;
     return this;
   }
 
    /**
-   * Get freight
-   * @return freight
+   * Get FreightPrice
+   * @return FreightPrice
   **/
   @ApiModelProperty(value = "")
-  public DecimalValue getFreight() {
-    return freight;
+  public DecimalValue getFreightPrice() {
+    return FreightPrice;
   }
 
-  public void setFreight(DecimalValue freight) {
-    this.freight = freight;
+  public void setFreightPrice(DecimalValue freight) {
+    this.FreightPrice = FreightPrice;
   }
 
   public ShippingSettings freightCost(DecimalValue freightCost) {

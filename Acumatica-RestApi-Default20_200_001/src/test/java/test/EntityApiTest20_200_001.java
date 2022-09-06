@@ -45,7 +45,7 @@ import model.Action;
 import model.Customer;
 import model.Entity;
 
-public class EntityApiTest {
+public class EntityApiTest20_200_001 {
 	private Client client;
 	 private CloseableHttpClient httpClient;
 	  private CloseableHttpResponse expectedResponse;
@@ -58,7 +58,7 @@ public class EntityApiTest {
 	    this.expectedResponse = mock(CloseableHttpResponse.class);
 	    this.statusline = mock(StatusLine.class);
 	    this.request = new EntityApiPrivate();
-	    this.client = new Client("admin", "123");
+	    this.client = new Client("admin", "123", "MyStoreInstance", "Default/20.200.001/");
 	  }
 	
 	

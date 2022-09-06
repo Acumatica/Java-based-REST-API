@@ -3,6 +3,7 @@ package clientAPI;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -47,7 +48,8 @@ public class EntityApiPrivate {
 			client = pClient;
 			HttpPost request = new HttpPost(client.getPath() + "auth/login");
 			StringEntity params = new StringEntity("{\"name\":\""+client.getUsername()+"\",\"password\":\""+client.getPassword()+"\", "
-		    		+ "\"tenant\":\"MyStore\", \"branch\":\"MYSTORE\"} ");
+		    		+ "\"tenant\":\""+client.getTenant()+"\", \"branch\":\""+client.getBranch()+"\"} ");
+			
 			request.setEntity(params);
 			HttpCall(client, request, HeaderContentType.Json);
 		} catch (Exception ex) {}
@@ -71,8 +73,6 @@ public class EntityApiPrivate {
 			ApiResponse response =HttpCall(client, request, type);
 			String responseString = response.getResponseJson();		
 			
-			//Type listType = new TypeToken<ArrayList<Entity>>(){}.getType();
-			//List<Entity> entityResult = new Gson().fromJson(responseString, listType);
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 			List<Entity> entityResult = mapper.readValue(responseString, new TypeReference<List<Entity>>(){});
@@ -86,8 +86,8 @@ public class EntityApiPrivate {
 		} 
 	}
 	
-	protected ApiResponse getByKeysHttpCall(List<String> ID, HashMap<String, String> parameters, HeaderContentType type, Class<Entity> className){
-		try {
+	protected ApiResponse getByKeysHttpCall(List<String> ID, HashMap<String, String> parameters, HeaderContentType type, Class<Entity> className) throws JsonParseException, JsonMappingException, IOException, BadStatusCodeException{
+		
 			String urlString = client.getPath()+client.getVersion()+className.getSimpleName();
 			for(String s : ID) {
 				urlString += "/"+ s;
@@ -96,25 +96,15 @@ public class EntityApiPrivate {
 			addParameters(parameters, request);
 			ApiResponse response = HttpCall(client, request, type);
 			String responseString = response.getResponseJson();
-			//Entity entityResult =  new Gson().fromJson(responseString, Entity.class);
-			/*
-			 * ObjectMapper mapper = new ObjectMapper();
-			mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-			Entity entityResult = mapper.readValue(responseString, );
-			 */
 			
 			response.setData(DeserializeObject(responseString, className));
 			return response;
 			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		} 
 	}
 
 
-	protected ApiResponse CreateOrUpdateHttpCall(Entity entity, HashMap<String, String> parameters, HeaderContentType type) {
-		try {
+	protected ApiResponse CreateOrUpdateHttpCall(Entity entity, HashMap<String, String> parameters, HeaderContentType type) throws BadStatusCodeException, JsonParseException, JsonMappingException, IOException {
+		
 			HttpPut request = new HttpPut(client.getPath()+client.getVersion()+entity.getClass().getSimpleName());
 			addParameters(parameters, request);
 			StringEntity body = new StringEntity(new Gson().toJson(entity));
@@ -122,49 +112,21 @@ public class EntityApiPrivate {
 			ApiResponse response = HttpCall(client, request, type);
 			String responseString = response.getResponseJson();
 			
-			//Entity entityResult = new Gson().fromJson(responseString, Entity.class);
-			/*
-			 * ObjectMapper mapper = new ObjectMapper();
-			mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-			Entity entityResult = mapper.readValue(responseString, entity.getClass());
-			
-			 */
-			
-			
 			response.setData(DeserializeObject(responseString, entity.getClass()));
 			return response;
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		}
 	}
-	protected ApiResponse removeByKeysHttpCall(Entity entity, String ID, HeaderContentType type) {
-		try {
+	protected ApiResponse removeByKeysHttpCall(Entity entity, String ID, HeaderContentType type) throws JsonParseException, JsonMappingException, IOException, BadStatusCodeException {
+		
 			HttpDelete request = new HttpDelete(client.getPath()+client.getVersion()+entity.getClass().getSimpleName() + "/"+ ID);
 			ApiResponse response = HttpCall(client, request, type);
 			String responseString = response.getResponseJson();
 			
-			//Entity entityResult = new Gson().fromJson(responseString, Entity.class);
-			/*
-			 * ObjectMapper mapper = new ObjectMapper();
-			mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-			Entity entityResult = mapper.readValue(responseString, entity.getClass());
-			
-			 */
-			
 			response.setData(DeserializeObject(responseString, entity.getClass()));
 			return response;
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		}
+		
 	}
 	
-	protected ApiResponse attachFileHttpCall(Entity entity, String endpointID, File file, HashMap<String, String> parameters, HeaderContentType type) {
-		try {
-			
+	protected ApiResponse attachFileHttpCall(Entity entity, String endpointID, File file, HashMap<String, String> parameters, HeaderContentType type) throws BadStatusCodeException, JsonParseException, JsonMappingException, IOException {
 			HttpPut request = new HttpPut(client.getPath()+client.getVersion()+entity.getClass().getSimpleName() + "/"+ endpointID + "/"+ "files/"+  file.getName());
 			addParameters(parameters, request);
 			HttpEntity fileEntity = MultipartEntityBuilder.create().addBinaryBody(file.getName(), file, ContentType.APPLICATION_OCTET_STREAM, file.getName())	
@@ -177,15 +139,10 @@ public class EntityApiPrivate {
 			response.setData(DeserializeObject(responseString, entity.getClass()));
 			
 			return response;
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		}
 	}
 	
-	protected ApiResponse retrieveFileLinkHttpCall(String ID, HashMap<String, String> parameters, HeaderContentType type, String path) {
-		try {
+	protected ApiResponse retrieveFileLinkHttpCall(String ID, HashMap<String, String> parameters, HeaderContentType type, String path) throws BadStatusCodeException, JsonParseException, JsonMappingException, IOException {
+		
 			HttpGet request = new HttpGet(client.getPath()+client.getVersion()+ path + "/"+ ID);
 			addParameters(parameters, request);
 			ApiResponse response = HttpCall(client,request, type);
@@ -196,25 +153,8 @@ public class EntityApiPrivate {
 			List<FileLink> filelinks = entityResult.getFiles();
 			response.setFiles(filelinks);
 			
-			
-			/*
-			if(response.getStatusCode()==200) {
-				for(FileLink f : filelinks) {
-					HttpGet requestFile = new HttpGet("http://localhost"+f.getHref());
-					ApiResponse apiresponseFile = HttpCall(client, requestFile, type);
-					apiresponseFile.get
-				}
-			}
-			*/
-			
-			
+
 			return response;
-		}
-			
-		 catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		} 
 	}
 	
 	protected ApiResponse invokeHttpCall(Entity entity, Action action, HeaderContentType type) {
@@ -223,7 +163,6 @@ public class EntityApiPrivate {
 			StringEntity body = new StringEntity(new Gson().toJson(action));
 			request.setEntity(body);
 			ApiResponse apiresponse = HttpCall(client, request, type);
-			//String responseString = apiresponse.getResponseJson();
 			return apiresponse;
 			
 		} catch (Exception ex) {
@@ -259,7 +198,6 @@ public class EntityApiPrivate {
 			entityResult = mapper.readValue(responseString, class1);
 		}
 		else {
-			//What can be done when there is no Json Response  (for ex, put method for file)
 			entityResult=null;
 		}
 		
@@ -319,12 +257,12 @@ public class EntityApiPrivate {
 	    	CloseableHttpResponse response = client.getHttpClient().execute((HttpUriRequest) request);
 	    	ApiResponse apiresponse = new ApiResponse(response);
 	    	
+	    	
 			if(response.getStatusLine().getStatusCode() >= 400 && apiresponse.getStatusCode() < 500) {
-				throw new BadStatusCodeException("Client error:" + response.getStatusLine().toString());
+				throw new BadStatusCodeException("Client error:" + response.getStatusLine().toString() + convertHTTPResponseBodytoString(response.getEntity()));
 			}
 			if(response.getStatusLine().getStatusCode() >= 500) {
-				//return the content too (why it failed)
-				throw new BadStatusCodeException("Server error:" + response.getStatusLine().toString()); 
+				throw new BadStatusCodeException("Server error:" + response.getStatusLine().toString()+ convertHTTPResponseBodytoString(response.getEntity())); 
 			}
 			HttpEntity entity = response.getEntity();
 			ArrayList<byte[]> bytearray = new ArrayList<>();
@@ -333,19 +271,36 @@ public class EntityApiPrivate {
 			if(entity!=null) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				entity.writeTo(baos);
-			    
 				byte[] bytes =  baos.toByteArray();
 				bytearray.add(bytes);
 				apiresponse.setBytearray(bytearray);
 				String responseString= new String(bytes, StandardCharsets.UTF_8);
 				apiresponse.setResponseJson(responseString);
+				System.out.println(responseString);
 			}
 			return apiresponse;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
+	    
 }
+	
+	private String convertHTTPResponseBodytoString(HttpEntity entity) {
+		try {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ArrayList<byte[]> bytearray = new ArrayList<>();
+		entity.writeTo(baos);
+		byte[] bytes =  baos.toByteArray();
+		bytearray.add(bytes);
+		String responseString= new String(bytes, StandardCharsets.UTF_8);
+		return responseString;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}		
+	}
 	
 	
 

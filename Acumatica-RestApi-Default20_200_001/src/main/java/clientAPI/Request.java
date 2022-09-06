@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import model.Action;
 import model.Entity;
@@ -37,38 +39,37 @@ public abstract class Request implements EntityInterface{
 	public ApiResponse getList(HeaderContentType type) throws IOException {
 		return request.getListHttpCall(null, type, getTypeName());
 	}
-	/*
-	 * Returns a customer with the given ID
-	 */
-	public ApiResponse getByKeys(List<String> ID, HashMap<String, String> parameters, HeaderContentType type){
+	
+	public ApiResponse getByKeys(List<String> ID, HashMap<String, String> parameters, HeaderContentType type) throws JsonParseException, JsonMappingException, IOException, BadStatusCodeException{
 		return request.getByKeysHttpCall(ID, parameters, type, getTypeName());
 	}
-	public ApiResponse getByKeys(List<String> ID, HeaderContentType type){
+	
+	public ApiResponse getByKeys(List<String> ID, HeaderContentType type) throws JsonParseException, JsonMappingException, IOException, BadStatusCodeException{
 		return request.getByKeysHttpCall(ID, null, type, getTypeName());
 	}
 	/*
 	 * Updates a customer indicated by the mail and replaces the values with the given body input
 	 */
-	public static ApiResponse CreateOrUpdate(Entity entity, HashMap<String, String> parameters, HeaderContentType type) {
+	public static ApiResponse CreateOrUpdate(Entity entity, HashMap<String, String> parameters, HeaderContentType type) throws JsonParseException, JsonMappingException, BadStatusCodeException, IOException {
 		return request.CreateOrUpdateHttpCall(entity, parameters, type);		
 	}
-	public static ApiResponse CreateOrUpdate(Entity entity, HeaderContentType type) {
+	public static ApiResponse CreateOrUpdate(Entity entity, HeaderContentType type) throws JsonParseException, JsonMappingException, BadStatusCodeException, IOException {
 		return request.CreateOrUpdateHttpCall(entity, null, type);	
 	}
-	public static ApiResponse removeByKeys(Entity entity, String ID, HeaderContentType type) {
+	public static ApiResponse removeByKeys(Entity entity, String ID, HeaderContentType type) throws JsonParseException, JsonMappingException, IOException, BadStatusCodeException {
 		return request.removeByKeysHttpCall(entity, ID, type);
 	}
 	
-	public ApiResponse retrieveFile(String ID, HashMap<String, String> parameters, HeaderContentType type) {
+	public ApiResponse retrieveFile(String ID, HashMap<String, String> parameters, HeaderContentType type) throws JsonParseException, JsonMappingException, BadStatusCodeException, IOException {
 		return request.retrieveFileLinkHttpCall(ID, parameters, type, getTypeName().getSimpleName());
 	}
-	public ApiResponse retrieveFile(String ID, HeaderContentType type) {
+	public ApiResponse retrieveFile(String ID, HeaderContentType type) throws JsonParseException, JsonMappingException, BadStatusCodeException, IOException {
 		return request.retrieveFileLinkHttpCall(ID, null, type, getTypeName().getSimpleName());
 	}
-	public static ApiResponse attachFile(Entity entity, String endpointID, File file, HashMap<String, String> parameters, HeaderContentType type) {
+	public static ApiResponse attachFile(Entity entity, String endpointID, File file, HashMap<String, String> parameters, HeaderContentType type) throws JsonParseException, JsonMappingException, BadStatusCodeException, IOException {
 		return request.attachFileHttpCall(entity, endpointID, file, parameters, type);
 	}
-	public static ApiResponse attachFile(Entity entity, String endpointID, File file, HeaderContentType type) {
+	public static ApiResponse attachFile(Entity entity, String endpointID, File file, HeaderContentType type) throws JsonParseException, JsonMappingException, BadStatusCodeException, IOException {
 		return request.attachFileHttpCall(entity, endpointID, file, null, type);
 	}
 	

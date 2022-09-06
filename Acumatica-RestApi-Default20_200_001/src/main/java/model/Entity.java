@@ -18,9 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import com.google.gson.annotations.SerializedName;
-
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -47,6 +45,9 @@ public class Entity {
 
   @SerializedName("files")
   private List<FileLink> files = null;
+  
+  //@SerializedName("_links")
+  //private Links _links;
 
   public Entity id(UUID id) {
     this.id = id;
@@ -177,6 +178,30 @@ public class Entity {
   public void setFiles(List<FileLink> files) {
     this.files = files;
   }
+ 
+  /*
+  public Entity _links(Links link) {
+	  this._links = link;
+	  return this;
+  }
+  /*
+  /**
+   * Get links
+   * @return links
+  **/
+  /*
+  @ApiModelProperty(value = "")
+  public Links getLinks() {
+	  return this._links;
+  }
+  
+  public void setLinks(Links links) {
+	  this._links = links;
+  }
+  */
+  
+  
+  
 
   
 

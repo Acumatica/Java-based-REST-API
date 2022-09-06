@@ -1,6 +1,7 @@
 package example;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -25,13 +26,16 @@ import model.SalesInvoice;
 import model.StockItem;
 import model.StringValue;
 
-public class ExampleApi {
-	private static Client client= new Client("admin", "123");
+public class ExampleApiVersion20_100_001 {
+	private static Client client= new Client("admin", "123", "MyStoreInstance", "Default/20.200.001/");
 	
+	/*
+	 * Examples for the previous version
+	 */
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, IOException {
 		Request.Login(client);
 		
-		
+		try {
 		/*
 		 * Get Customer by Customer Key
 		 */ 
@@ -52,9 +56,16 @@ public class ExampleApi {
 		getCustomerParam.put("$expand", "MainContact,MainContact/Address");
 		getCustomerParam.put("$select", "CustomerID,CustomerName,CustomerClass,MainContact/Email,MainContact/Phone1,MainContact/Address/AddressLine1,MainContact/Address/AddressLine2,MainContact/Address/City,MainContact/Address/State,MainContact/Address/PostalCode");
 		ApiResponse response2=new CustomerApi().getList(getCustomerParam, HeaderContentType.Json);
-		//List<Entity> customers = response2.getListofData();
+		List<Entity> customers = response2.getListofData();
 		//System.out.println(cus);
 		
+		/*
+		 * If you want to perform an example of this lesson multiple times with the same data, aer you
+		complete the example, you need to restore the customer data on the Customers form before you
+		attempt to update the customer once again. To restore the customer data, change the customer class
+		to Default in the Customer Class box, and clear the Override check box in the Bill-To Info section of
+		the Billing tab.
+		 */
 		Customer customer2 = new Customer();
 	    customer2.setCustomerClass(new StringValue().value("INTL"));
 	    customer2.setBillingAddressOverride(new BooleanValue().value(true));
@@ -65,7 +76,7 @@ public class ExampleApi {
 		//Request.CreateOrUpdate(customer2, updateParam, HeaderContentType.Json);
 		
 	    /*
-		 * Get Sales Order by Key Field
+		 * Get Sales Order by Key Field (NOTE: doesn't work when older site is updated and this method is called)
 		 */
 		HashMap<String, String> SOParam = new HashMap<String, String>();
 		SOParam.put("$expand", "Details");
@@ -81,7 +92,7 @@ public class ExampleApi {
 		paramFile.put("$select", "InventoryID,files");
 		paramFile.put("$expand", "files");
 	    ApiResponse response4 = new StockItemApi().retrieveFile("AAMACHINE1", paramFile, HeaderContentType.Json);
-	    System.out.println(response4.getFiles());
+	    //System.out.println(response4.getFiles());
 	    /*
 		 * Attaches a file to a record
 		 * Both Java and Postman gives error: File cannot be null
@@ -93,10 +104,16 @@ public class ExampleApi {
 
 
 		ApiResponse response5 = Request.attachFile(new StockItem(),"CONGRILL", file, HeaderContentType.OctetStream);
-		System.out.println(response5.getResponseJson());
+		//System.out.println(response5.getResponseJson());
 		
 		/* 
 		 * Triggering an action. Update the request on hold from true to false. Then invoke the invoice. Then monitor the response
+		If you want to perform an example of this lesson multiple times, aer you complete the example, on
+		the Invoices form, you need to create an invoice that has the On Hold status. You also need to update
+		the reference number of the invoice in the code example to that of the invoice you created. To create
+		an invoice, you can use the procedure described in To Prepare an Invoice for a Sales Order in the
+		documentation or perform a REST API call.
+
 		 */			
 		//creating a sales invoice
 		SalesInvoice invoice = new SalesInvoice();
@@ -112,8 +129,13 @@ public class ExampleApi {
 		
 		//monitoring the status
 		//Request.monitorStatus(response, HeaderContentType.Json);
-		
-		Request.Logout();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			Request.Logout();
+		}
 	}
 
 

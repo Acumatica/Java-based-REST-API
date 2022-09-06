@@ -25,17 +25,8 @@ public class ChangeOrderRevenueBudget extends Entity {
   @SerializedName("AccountGroup")
   private StringValue accountGroup = null;
 
-  @SerializedName("ActualAmount")
-  private DecimalValue actualAmount = null;
-
-  @SerializedName("ActualQty")
-  private DecimalValue actualQty = null;
-
   @SerializedName("Amount")
   private DecimalValue amount = null;
-
-  @SerializedName("Completed")
-  private DecimalValue completed = null;
 
   @SerializedName("CostCode")
   private StringValue costCode = null;
@@ -43,17 +34,9 @@ public class ChangeOrderRevenueBudget extends Entity {
   @SerializedName("Description")
   private StringValue description = null;
 
-  @SerializedName("DraftInvoicesAmount")
-  private DecimalValue draftInvoicesAmount = null;
-
   @SerializedName("InventoryID")
   private StringValue inventoryID = null;
 
-  @SerializedName("OriginalBudgetedAmount")
-  private DecimalValue originalBudgetedAmount = null;
-
-  @SerializedName("OriginalBudgetedQty")
-  private DecimalValue originalBudgetedQty = null;
 
   @SerializedName("OtherDraftCOAmount")
   private DecimalValue otherDraftCOAmount = null;
@@ -103,41 +86,6 @@ public class ChangeOrderRevenueBudget extends Entity {
     this.accountGroup = accountGroup;
   }
 
-  public ChangeOrderRevenueBudget actualAmount(DecimalValue actualAmount) {
-    this.actualAmount = actualAmount;
-    return this;
-  }
-
-   /**
-   * Get actualAmount
-   * @return actualAmount
-  **/
-  @ApiModelProperty(value = "")
-  public DecimalValue getActualAmount() {
-    return actualAmount;
-  }
-
-  public void setActualAmount(DecimalValue actualAmount) {
-    this.actualAmount = actualAmount;
-  }
-
-  public ChangeOrderRevenueBudget actualQty(DecimalValue actualQty) {
-    this.actualQty = actualQty;
-    return this;
-  }
-
-   /**
-   * Get actualQty
-   * @return actualQty
-  **/
-  @ApiModelProperty(value = "")
-  public DecimalValue getActualQty() {
-    return actualQty;
-  }
-
-  public void setActualQty(DecimalValue actualQty) {
-    this.actualQty = actualQty;
-  }
 
   public ChangeOrderRevenueBudget amount(DecimalValue amount) {
     this.amount = amount;
@@ -155,24 +103,6 @@ public class ChangeOrderRevenueBudget extends Entity {
 
   public void setAmount(DecimalValue amount) {
     this.amount = amount;
-  }
-
-  public ChangeOrderRevenueBudget completed(DecimalValue completed) {
-    this.completed = completed;
-    return this;
-  }
-
-   /**
-   * Get completed
-   * @return completed
-  **/
-  @ApiModelProperty(value = "")
-  public DecimalValue getCompleted() {
-    return completed;
-  }
-
-  public void setCompleted(DecimalValue completed) {
-    this.completed = completed;
   }
 
   public ChangeOrderRevenueBudget costCode(StringValue costCode) {
@@ -211,24 +141,6 @@ public class ChangeOrderRevenueBudget extends Entity {
     this.description = description;
   }
 
-  public ChangeOrderRevenueBudget draftInvoicesAmount(DecimalValue draftInvoicesAmount) {
-    this.draftInvoicesAmount = draftInvoicesAmount;
-    return this;
-  }
-
-   /**
-   * Get draftInvoicesAmount
-   * @return draftInvoicesAmount
-  **/
-  @ApiModelProperty(value = "")
-  public DecimalValue getDraftInvoicesAmount() {
-    return draftInvoicesAmount;
-  }
-
-  public void setDraftInvoicesAmount(DecimalValue draftInvoicesAmount) {
-    this.draftInvoicesAmount = draftInvoicesAmount;
-  }
-
   public ChangeOrderRevenueBudget inventoryID(StringValue inventoryID) {
     this.inventoryID = inventoryID;
     return this;
@@ -245,42 +157,6 @@ public class ChangeOrderRevenueBudget extends Entity {
 
   public void setInventoryID(StringValue inventoryID) {
     this.inventoryID = inventoryID;
-  }
-
-  public ChangeOrderRevenueBudget originalBudgetedAmount(DecimalValue originalBudgetedAmount) {
-    this.originalBudgetedAmount = originalBudgetedAmount;
-    return this;
-  }
-
-   /**
-   * Get originalBudgetedAmount
-   * @return originalBudgetedAmount
-  **/
-  @ApiModelProperty(value = "")
-  public DecimalValue getOriginalBudgetedAmount() {
-    return originalBudgetedAmount;
-  }
-
-  public void setOriginalBudgetedAmount(DecimalValue originalBudgetedAmount) {
-    this.originalBudgetedAmount = originalBudgetedAmount;
-  }
-
-  public ChangeOrderRevenueBudget originalBudgetedQty(DecimalValue originalBudgetedQty) {
-    this.originalBudgetedQty = originalBudgetedQty;
-    return this;
-  }
-
-   /**
-   * Get originalBudgetedQty
-   * @return originalBudgetedQty
-  **/
-  @ApiModelProperty(value = "")
-  public DecimalValue getOriginalBudgetedQty() {
-    return originalBudgetedQty;
-  }
-
-  public void setOriginalBudgetedQty(DecimalValue originalBudgetedQty) {
-    this.originalBudgetedQty = originalBudgetedQty;
   }
 
   public ChangeOrderRevenueBudget otherDraftCOAmount(DecimalValue otherDraftCOAmount) {
