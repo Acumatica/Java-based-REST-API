@@ -57,7 +57,6 @@ public class ExampleApiVersion20_100_001 {
 		getCustomerParam.put("$select", "CustomerID,CustomerName,CustomerClass,MainContact/Email,MainContact/Phone1,MainContact/Address/AddressLine1,MainContact/Address/AddressLine2,MainContact/Address/City,MainContact/Address/State,MainContact/Address/PostalCode");
 		ApiResponse response2=new CustomerApi().getList(getCustomerParam, HeaderContentType.Json);
 		List<Entity> customers = response2.getListofData();
-		//System.out.println(cus);
 		
 		/*
 		 * If you want to perform an example of this lesson multiple times with the same data, aer you
@@ -84,7 +83,7 @@ public class ExampleApiVersion20_100_001 {
 		SOKeys.add("SO");
 		SOKeys.add("000011");
 		ApiResponse response3= new SalesOrderApi().getByKeys(SOKeys, SOParam, HeaderContentType.Json);		
-		//System.out.println(response3.getStatusLine());
+		System.out.println(response3.getStatusLine());
 		/*
 	     * retrieve file
 	     */
@@ -104,7 +103,7 @@ public class ExampleApiVersion20_100_001 {
 
 
 		ApiResponse response5 = Request.attachFile(new StockItem(),"CONGRILL", file, HeaderContentType.OctetStream);
-		//System.out.println(response5.getResponseJson());
+		System.out.println(response5.getResponseJson());
 		
 		/* 
 		 * Triggering an action. Update the request on hold from true to false. Then invoke the invoice. Then monitor the response
